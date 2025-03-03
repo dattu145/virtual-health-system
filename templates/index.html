@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/vh/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Health System</title>
+</head>
+<body onload="getLocation()">
+
+    <div id="background"></div>
+
+    <!-- Step 1: Name, Age, Gender -->
+    <div class="container step active" id="step1">
+        <h2>Enter your Details</h2>
+        <form id="userForm">
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <input class="spinner" type="number" id="age" placeholder="Enter your age" required>
+            <div id="gender_details">
+                <label>Gender:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="Male"> Male</label>
+                    <label><input type="radio" name="gender" value="Female"> Female</label>
+                    <label><input type="radio" name="gender" value="Other"> Other</label>
+                </div>
+            </div>
+
+            <div id="locbtn">
+                <p id="locationStatus">Detecting location...</p>
+                <input type="hidden" id="location">
+                <button type="button" onclick="goToStep(2)">Next</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Step 2: Height & Weight -->
+    <div class="container step" id="step2">
+        <h2>Enter your Height & Weight</h2>
+        <div id="heightSection">
+            <label>Height:</label>
+            <select id="heightUnit" onchange="toggleHeightInput()">
+                <option value="cm">Centimeters</option>
+                <option value="feet">Feet & Inches</option>
+            </select>
+            <input type="number" id="heightCm" placeholder="Enter height (cm)">
+            <div id="heightFeetInches" style="display: none;">
+                <input class="spinner" type="number" id="heightFeet" placeholder="Feet">
+                <input class="spinner" type="number" id="heightInches" placeholder="Inches">
+            </div>
+        </div>
+        
+        <div id="weightSection">
+            <label>Weight:</label>
+            <select id="weightUnit" onchange="toggleWeightInput()">
+                <option value="kg">Kilograms</option>
+                <option value="lbs">Pounds</option>
+            </select>
+            <input class="spinner" type="number" id="weightKg" placeholder="Enter weight (kg)">
+            <input class="spinner" type="number" id="weightLbs" placeholder="Enter weight (lbs)" style="display: none;">
+        </div>
+
+        <div id="locbtn">
+            <p id="locationStatus">Detecting location...</p>
+            <input type="hidden" id="location">
+            <button type="button" onclick="goToStep(3)">Next</button>
+        </div>
+
+    </div>
+
+    <div class="container step" id="step3">
+        <div id="step3_inner">
+        <!-- Parent for BMI Report -->
+        <div id="bmiParent">
+            <div class="card" id="bmiCard">
+                <h3>Your Health Report</h3>
+                <p><strong>BMI :</strong> <span id="bmiValue">Calculating...</span></p>
+                <p><strong>Category :</strong> <span id="bmiCategory">Determining...</span></p>
+                <p><strong>Healthy Weight Range:</strong> <span id="healthyRange">Calculating...</span></p>
+                <p><strong>Weight Advice:</strong> <span id="weightAdvice">Loading...</span></p>
+            </div>
+        </div>
+    
+        <div id="healthParent">
+            <div class="card" id="healthCard">
+                <h2>Describe Your Health Problem</h2>
+                <textarea id="healthProblem" rows="4" placeholder="Describe your symptoms (e.g., 'I have had a severe headache for 7 days')" required></textarea>
+    
+                <div id="locbtn">
+                    <p id="locationStatus">Detecting location...</p>
+                    <input type="hidden" id="location">
+                    <button type="button" onclick="sendToAI()">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="response">
+            <h2>Response</h2>
+            <p id="aiResponse"></p>
+        </div>
+        
+        <div class="card" id="medicineCard">
+            <h2>Suggested Medicines</h2>
+            <p id="medicineResponse"></p>
+        </div>
+
+        <div class="card" id="organicCard">
+            <h2>Organic Remedies</h2>
+            <p id="organicResponse"></p>
+        </div>
+
+        <div class="card" id="hospitalCard" style="display: none;">
+            <h2>Nearby Hospitals</h2>
+            <p id="hospitalResponse"></p>
+        </div>
+        
+        </div>
+    </div>
+<script src="/vh/static/js/script.js"></script>
+</body>
+</html>
